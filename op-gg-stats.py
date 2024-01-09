@@ -20,11 +20,11 @@ page_source = browser.page_source
 df = []
 columns = []
 soup = BeautifulSoup(page_source, 'html.parser')
-table_columns = soup.find('table', class_ = 'css-1eu6iti ek4t1l70').find_all('tr')[0]
+table_columns = soup.find('table', class_ = 'css-1eu6iti').find_all('tr')[0]
 for i in table_columns:
     columns.append(i.text.strip())
 
-table_row = soup.find('table', class_ = 'css-1eu6iti ek4t1l70').find_all('tr')[1:]
+table_row = soup.find('table', class_ = 'css-1eu6iti').find_all('tr')[1:]
 for row in table_row:
     mt = []
     for i in row:
