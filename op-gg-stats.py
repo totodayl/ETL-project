@@ -2,10 +2,14 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import date
+import s3_upload
 
 # get todays date
 today = date.today()
 url = "https://www.op.gg/statistics/champions?position=jungle&region=ph&period=week&tier=all"
+
+#bucket name
+bucket = 'op.gg-league-data'
 
 # Use a headless browser
 options = webdriver.ChromeOptions()
@@ -34,6 +38,12 @@ for row in table_row:
 df = pd.DataFrame(df,columns = columns)
 df.set_index('#', inplace= True)
 df.drop(columns=['KDA', 'CS', 'Gold'], inplace= True)
-print(type(today))
-print(df)
+
+#converting to csv
+filename = f'{str(today)}_stats.csv'
+df.to_csv(filename, index=False)
+
+#upload to s3
+s3_upload.upload_file(filename,bucket, filename)
+
     
