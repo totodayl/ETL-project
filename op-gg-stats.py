@@ -40,7 +40,7 @@ df.set_index('#', inplace= True)
 df.drop(columns=['KDA', 'CS', 'Gold'], inplace= True)
 
 #converting to csv
-filename = f'{str(today)}_stats.csv'
+filename = f'{str(today)}-LoL_stats.csv'
 df.to_csv(filename, index=False)
 
 #upload to s3

@@ -1,14 +1,15 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
-from datetime import date
 import time
+import s3_upload
+
 
 url = 'https://m.mobilelegends.com/en/rank'
 df = []
 header = ['Hero', 'Win Percentage','Popularity', 'Ban Ratio']
 
-
+#Configure the driver to headless
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
 
@@ -35,6 +36,13 @@ for row in table:
     df.append(mt)
 
 df = pd.DataFrame(df, columns=header)
+filename = f'{stats_date}-lol_stats.csv'
+bucket = 'mobile-legends-data'
+
+df.to_csv(filename, index=False)
+
+#upload the file to s3
+s3_upload.upload_file(filename,bucket, filename)
 
 
 
